@@ -1,0 +1,277 @@
+
+{% extends "users/home.html" %}
+{% load static %}
+{% block content %}
+<style>
+  .card {
+    width: 200px;
+    height: 250px;
+    perspective: 800px;
+    z-index: 4;
+}
+
+.card__inner {
+    position: relative;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.card:hover .card__inner {
+    transform: rotateY(180deg);
+}
+
+.card__body {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    z-index: 5;
+}
+
+.card__body--front {
+    background-image: radial-gradient(circle 248px at center,
+            #00ff73 0%, #5cdb95d2 47%,
+            #5cdb95 100%);
+}
+
+.card__body--back {
+    background-image: linear-gradient(60deg, rgb(58, 162, 180) 14%, rgba(255, 41, 232, 0.7931547619047619) 57%, rgba(252, 69, 79, 0.896796218487395) 89%);
+    transform: rotateY(180deg);
+}
+.contain {
+        padding-top: 150px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-gap: 10px;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 1200px;
+        margin: 0 auto;
+        z-index: 2;
+    }
+
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Adjust overlay color */
+        color: white;
+        padding: 10px;
+        z-index: 2;
+    }
+    body h1 {
+  text-align: center;
+}
+
+.card-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+  align-self: center;
+  z-index: 5;
+}
+
+.card {
+  margin: 20px 40px 40px 20px;
+  width: 400px;
+  height: 400px;
+  transform-style: preserve-3d;
+  perspective: 600px;
+  transition: 0.5s;
+  z-index: 4;
+}
+    .card .front {
+  border: solid 10px rgba(255, 255, 255, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 400px;
+  backface-visibility: hidden;
+  transition: 0.5s;
+  -webkit-box-shadow: 0px 10px 13px -7px #000000,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+  z-index: 5;
+
+}
+
+.card .front img{
+    width: 400px;
+  height: 400px;
+  /* object-fit: cover; */
+}
+.card .front img:hover{
+    width: 500px;
+  height: 500px;
+  /* object-fit: cover; */
+}
+
+.card:hover .front {
+  transform: rotateY(-180deg);
+}
+
+
+.card .back {
+  border: solid 10px rgba(255, 255, 255, 0.7);
+  width: 100%;
+  height: 100%;
+  background: orange;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  transition: 0.5s;
+  -webkit-box-shadow: 0px 10px 13px -7px #000000,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+z-index: 4;
+
+}.card .back h2,.card .back h3,.card .back div{
+    text-align:  center;
+    margin-top: 50px;
+}
+
+.card:hover .back {
+  transform: rotateY(0deg);
+}
+
+.play-button{
+    width: 150px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 30px;
+    border: 0;
+    outline: none;
+    font-family: cursive;
+    padding: 10px 30px;
+    /*margin-top: 50px;*/
+
+}
+.play-button:hover{
+    color: black;
+}
+
+</style>
+
+<div class="card-container">
+    <div class="card">
+        <div class="front">
+            <img src="{% static 'game/images/rock.png' %}" alt="">
+        </div>
+        <div class="back">
+            <h2>Rock Paper Scissors</h2>
+            <h3>Easy</h3>
+            <div ><button class="play-button rock">play</button></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="front">
+            <img src="{% static 'game/images/asteroids.jpg' %}" alt="">
+        </div>
+        <div class="back">
+            <h2>Asteroids</h2>
+            <h3>Easy</h3>
+            <div ><button class="play-button towers">play</button></div>
+        </div>
+    </div><div class="card">
+        <div class="front">
+            <img src="{% static 'game/images/flappy.jpg' %}" alt="">
+        </div>
+        <div class="back">
+            <h2>Flappy Birds</h2>
+            <h3>Easy</h3>
+            <div ><button class="play-button flappy">play</button></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    var toggleButton1 = document.querySelector(".rock");
+    toggleButton1.addEventListener("click", function () {
+        localStorage.setItem("userId", getUserId());
+        localStorage.setItem("gameName", "rock");
+      window.location.href = "http://127.0.0.1:8000/base/";
+    });
+
+    var toggleButton2 = document.querySelector(".towers");
+    toggleButton2.addEventListener("click", function (event) {
+        localStorage.setItem("userId", getUserId());
+        localStorage.setItem("gameName", "towers");
+      window.location.href = "http://127.0.0.1:8000/alternative/";
+    });
+    var toggleButton3 = document.querySelector(".flappy");
+    toggleButton3.addEventListener("click", function (event) {
+        localStorage.setItem("userId", getUserId());
+        localStorage.setItem("gameName", "flappy");
+      window.location.href = "http://127.0.0.1:8000/flappy/";
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const playButtons = document.querySelectorAll(".play-button");
+
+    playButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const gameName = this.closest(".card").querySelector("h2").textContent;
+            /*if (gameName=="Rock Paper Scissors")
+                window.location.href = "http://127.0.0.1:8000/rock/";
+            elif(gameName=="Tower Blocks")
+                window.location.href = "http://127.0.0.1:8000/towers/";
+            elif(gameName=="Flappy Bird")
+                window.location.href = "http://127.0.0.1:8000/flappy/";*/
+            
+            fetch("/start_game/", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+    },
+    body: JSON.stringify({
+        player_id : getUserId(),
+game: gameName
+
+    }),
+})
+.then(response => response.json())
+.then(data => {
+    if (data.success) {
+        // Redirect using JavaScript after receiving the JSON response
+        window.location.href = data.redirect_url;
+    } else {
+        console.error("Error:", data.message);
+    }
+})
+.catch(error => {
+    console.error("Error:", error);
+});
+
+    });
+});
+  });
+
+      // Function to get the CSRF token from cookies
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+        function getUserId() {
+        const cookies = document.cookie.split(";").map(cookie => cookie.trim());
+        for (const cookie of cookies) {
+            const [name, value] = cookie.split("=");
+            if (name === "player_id") {
+                return value;
+            }
+        }
+        return null; // Return null if the "player_id" cookie is not found
+    }
+
+
+</script>
+{% endblock content %}
